@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ραντεβού Μασάζ</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Φόρτωση του EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Αρχικοποίηση του EmailJS με το Public Key
+        (function(){
+            emailjs.init("syteMUCBcpTmWwULk"); // Αντικατάστησε με το δικό σου Public Key
+        })();
+
+        // Λειτουργία αποστολής email
+        function sendMail(event) {
+            event.preventDefault(); // Αποτροπή προεπιλεγμένης υποβολής φόρμας
+
+            var templateParams = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                service: document.getElementById('service').value
+            };
+
+            emailjs.send('service_f9330os', 'template_auv3huc', templateParams)
+                .then(function(response) {
+                    alert('Το email στάλθηκε επιτυχώς!');
+                    document.getElementById('appointmentForm').reset(); // Καθαρισμός της φόρμας
+                }, function(error) {
+                    alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
+                });
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Ραντεβού Μασάζ</h1>
+    </header>
+    
+    <section id="appointment">
+        <h2>Κλείστε Ραντεβού</h2>
+        <!-- Η φόρμα για το ραντεβού -->
+        <form id="appointmentForm" onsubmit="sendMail(event);">
+            <label for="name">Όνομα:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="date">Ημερομηνία:</label>
+            <input type="date" id="date" name="date" required>
+            
+            <label for="time">Ώρα:</label>
+            <input type="time" id="time" name="time" required>
+            
+            <label for="service">Επιλογή Υπηρεσίας:</label>
+            <select id="service" name="service" required>
+                <option value="relaxing">Χαλαρωτικό Μασάζ</option>
+                <option value="therapeutic">Θεραπευτικό Μασάζ</option>
+                <option value="aromatherapy">Μασάζ Αρωματοθεραπείας</option>
+            </select>
+            
+            <button type="submit">Κλείστε Ραντεβού</button>
+        </form>
+    </section>
+</body>
+</html>
