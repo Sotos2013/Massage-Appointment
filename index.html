@@ -5,29 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ραντεβού Μασάζ</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Φόρτωση του EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
-        // Αρχικοποίηση του EmailJS με το Public Key
         (function(){
             emailjs.init("syteMUCBcpTmWwULk"); // Αντικατάστησε με το δικό σου Public Key
         })();
 
-        // Λειτουργία αποστολής email
         function sendMail(event) {
             event.preventDefault(); // Αποτροπή προεπιλεγμένης υποβολής φόρμας
 
+            var userEmail = document.getElementById('email').value; // Πάρε το email του χρήστη
+
             var templateParams = {
                 name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
+                email: userEmail,  // Χρησιμοποιούμε το email του χρήστη
                 date: document.getElementById('date').value,
                 time: document.getElementById('time').value,
                 service: document.getElementById('service').value
             };
 
-            emailjs.send('service_f9330os', 'template_auv3huc', templateParams)
+            // Αποστολή του email στον χρήστη
+            emailjs.send('service_f9330os', 'template_auv3huc', templateParams, userEmail)
                 .then(function(response) {
-                    alert('Το email στάλθηκε επιτυχώς!');
+                    alert('Το email επιβεβαίωσης στάλθηκε επιτυχώς στο ' + userEmail);
                     document.getElementById('appointmentForm').reset(); // Καθαρισμός της φόρμας
                 }, function(error) {
                     alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
@@ -42,7 +42,6 @@
     
     <section id="appointment">
         <h2>Κλείστε Ραντεβού</h2>
-        <!-- Η φόρμα για το ραντεβού -->
         <form id="appointmentForm" onsubmit="sendMail(event);">
             <label for="name">Όνομα:</label>
             <input type="text" id="name" name="name" required>
