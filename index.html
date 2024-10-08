@@ -48,53 +48,71 @@
     </section>
 
     <!-- Φόρμα Ραντεβού -->
-    <section id="appointment">
-        <h2>Κλείστε Ραντεβού</h2>
-        <form id="appointmentForm" onsubmit="sendMail(event);">
-            <label for="name">Όνομα:</label>
-            <input type="text" id="name" name="name" required>
+<section id="appointment">
+    <h2>Κλείστε Ραντεβού</h2>
+    <form id="appointmentForm">
+        <label for="name">Όνομα:</label>
+        <input type="text" id="name" name="name" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
 
-            <label for="date">Ημερομηνία:</label>
-            <input type="date" id="date" name="date" required>
+        <label for="date">Ημερομηνία:</label>
+        <input type="date" id="date" name="date" required>
 
-            <label for="time">Ώρα:</label>
-            <input type="time" id="time" name="time" required>
+        <label for="time">Ώρα:</label>
+        <input type="time" id="time" name="time" required>
 
-            <label for="service">Επιλογή Υπηρεσίας:</label>
-            <select id="service" name="service" required>
-                <option value="relaxing">Χαλαρωτικό Μασάζ</option>
-                <option value="therapeutic">Θεραπευτικό Μασάζ</option>
-                <option value="aromatherapy">Αρωματοθεραπεία</option>
-            </select>
+        <label for="service">Επιλογή Υπηρεσίας:</label>
+        <select id="service" name="service" required>
+            <option value="relaxing" data-price="50.00">Χαλαρωτικό Μασάζ - 50,00€</option>
+            <option value="therapeutic" data-price="70.00">Θεραπευτικό Μασάζ - 70,00€</option>
+            <option value="aromatherapy" data-price="60.00">Αρωματοθεραπεία - 60,00€</option>
+        </select>
 
-            <button type="submit">Κλείστε Ραντεβού</button>
-        </form>
+        <button type="submit">Κλείστε Ραντεβού</button>
+    </form>
 
-        <!-- PayPal Πληρωμή -->
-        <h3>Πληρώστε το ραντεβού σας</h3>
-        <div id="paypal-button-container"></div>
-        <script>
-            paypal.Buttons({
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: '50.00' // Προσαρμόστε το ποσό αναλόγως της υπηρεσίας
-                            }
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        alert('Πληρωμή επιτυχής από ' + details.payer.name.given_name);
-                    });
-                }
-            }).render('#paypal-button-container');
-        </script>
-    </section>
+    <!-- PayPal Πληρωμή -->
+    <h3>Πληρώστε το ραντεβού σας</h3>
+    <div id="paypal-button-container"></div>
+
+    <script>
+        // Calculate price based on selected service
+        document.getElementById('service').addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            document.querySelector('#paypal-button-container').dataset.price = price; // Set price to button container
+        });
+
+        // Handle form submission
+        document.getElementById('appointmentForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            sendMail(); // Call your sendMail function here
+        });
+
+        // PayPal Button
+        paypal.Buttons({
+            createOrder: function (data, actions) {
+                const price = document.querySelector('#paypal-button-container').dataset.price;
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: price // Use dynamic price based on service
+                        }
+                    }]
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    alert('Πληρωμή επιτυχής από ' + details.payer.name.given_name);
+                    // Optionally redirect or display a success message
+                });
+            }
+        }).render('#paypal-button-container');
+    </script>
+</section>
+
 
     <!-- Επικοινωνία -->
     <section id="contact">
