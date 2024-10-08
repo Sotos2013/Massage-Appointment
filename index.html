@@ -35,6 +35,19 @@
                 });
         }
     </script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', () => {
+                // Αυτόματη συμπλήρωση της τρέχουσας ημερομηνίας
+                const today = new Date().toISOString().substr(0, 10);
+                document.getElementById('date').value = today;
+    
+                // Αυτόματη συμπλήρωση της τρέχουσας ώρας
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                document.getElementById('time').value = `${hours}:${minutes}`;
+            });
+        </script>
 </head>
 <body>
     <header>

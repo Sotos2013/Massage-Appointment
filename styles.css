@@ -4,7 +4,12 @@ body {
     padding: 0;
     background-color: #f4f4f4;
 }
-
+input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 10px #3498db;
+ }
+ 
 header {
     background-color: #333;
     color: #fff;
