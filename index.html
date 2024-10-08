@@ -3,82 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ραντεβού Μασάζ</title>
+    <title>Κέντρο Μασάζ</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Φόρτωση του EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        // Αρχικοποίηση του EmailJS με το Public Key
+    <!-- PayPal SDK για πληρωμές -->
+    <script src="https://www.paypal.com/sdk/js?client-id=Your_Client_ID&currency=EUR"></script>
+    <!-- EmailJS SDK για email -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
         (function(){
-            emailjs.init("syteMUCBcpTmWwULk"); // Αντικατάστησε με το σωστό Public Key σου
+            emailjs.init("syteMUCBcpTmWwULk"); // Αντικατάστησε με το Public Key σου
         })();
+    </script>
+</head>
+<body>
 
-        // Λειτουργία αποστολής email
+    <!-- Header -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Αρχική</a></li>
+                <li><a href="#services">Υπηρεσίες</a></li>
+                <li><a href="#appointment">Ραντεβού</a></li>
+                <li><a href="#contact">Επικοινωνία</a></li>
+            </ul>
+        </nav>
+        <h1>Καλωσορίσατε στο Κέντρο Μασάζ</h1>
+    </header>
+
+    <!-- Αρχική Σελίδα -->
+    <section id="home">
+        <h2>Χαλάρωση και Ευεξία</h2>
+        <p>Προσφέρουμε επαγγελματικές υπηρεσίες μασάζ για την αναζωογόνηση του σώματος και του πνεύματος.</p>
+        <img src="massage_image.jpg" alt="Μασάζ">
+    </section>
+
+    <!-- Υπηρεσίες -->
+    <section id="services">
+        <h2>Οι Υπηρεσίες μας</h2>
+        <ul>
+            <li><strong>Χαλαρωτικό Μασάζ</strong>: Χαλαρώστε και ανακουφιστείτε από το άγχος.</li>
+            <li><strong>Θεραπευτικό Μασάζ</strong>: Ανακούφιση από πόνους και μυϊκές εντάσεις.</li>
+            <li><strong>Αρωματοθεραπεία</strong>: Συνδυασμός μασάζ με αιθέρια έλαια για βαθιά χαλάρωση.</li>
+        </ul>
+    </section>
+
+    <!-- Φόρμα Ραντεβού -->
+    <section id="appointment">
+        <h2>Κλείστε Ραντεβού</h2>
+        <form id="appointmentForm" onsubmit="sendMail(event);">
+            <label for="name">Όνομα:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="date">Ημερομηνία:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="time">Ώρα:</label>
+            <input type="time" id="time" name="time" required>
+
+            <label for="service">Επιλογή Υπηρεσίας:</label>
+            <select id="service" name="service" required>
+                <option value="relaxing">Χαλαρωτικό Μασάζ</option>
+                <option value="therapeutic">Θεραπευτικό Μασάζ</option>
+                <option value="aromatherapy">Αρωματοθεραπεία</option>
+            </select>
+
+            <button type="submit">Κλείστε Ραντεβού</button>
+        </form>
+
+        <!-- PayPal Πληρωμή -->
+        <h3>Πληρώστε το ραντεβού σας</h3>
+        <div id="paypal-button-container"></div>
+        <script>
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: '50.00' // Προσαρμόστε το ποσό αναλόγως της υπηρεσίας
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Πληρωμή επιτυχής από ' + details.payer.name.given_name);
+                    });
+                }
+            }).render('#paypal-button-container');
+        </script>
+    </section>
+
+    <!-- Επικοινωνία -->
+    <section id="contact">
+        <h2>Επικοινωνήστε μαζί μας</h2>
+        <p>Email: contact@massagecenter.gr</p>
+        <p>Τηλέφωνο: +30 210 1234567</p>
+        <form>
+            <label for="message">Το μήνυμά σας:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            <button type="submit">Αποστολή</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Κέντρο Μασάζ - Όλα τα δικαιώματα διατηρούνται</p>
+        <ul>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Twitter</a></li>
+        </ul>
+    </footer>
+
+    <!-- Script για αποστολή email μέσω EmailJS -->
+    <script>
         function sendMail(event) {
-            event.preventDefault(); // Αποτροπή προεπιλεγμένης υποβολής φόρμας
-
+            event.preventDefault();
             var templateParams = {
                 name: document.getElementById('name').value,
-                email: document.getElementById('email').value, // Το email του χρήστη
+                email: document.getElementById('email').value,
                 date: document.getElementById('date').value,
                 time: document.getElementById('time').value,
                 service: document.getElementById('service').value
             };
 
-            // Αποστολή email μέσω EmailJS
             emailjs.send('service_f9330os', 'template_auv3huc', templateParams)
                 .then(function(response) {
                     alert('Το email στάλθηκε επιτυχώς!');
-                    document.getElementById('appointmentForm').reset(); // Καθαρισμός της φόρμας
+                    document.getElementById('appointmentForm').reset();
                 }, function(error) {
                     alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
                 });
         }
     </script>
-        <script type="text/javascript">
-            document.addEventListener('DOMContentLoaded', () => {
-                // Αυτόματη συμπλήρωση της τρέχουσας ημερομηνίας
-                const today = new Date().toISOString().substr(0, 10);
-                document.getElementById('date').value = today;
-    
-                // Αυτόματη συμπλήρωση της τρέχουσας ώρας
-                const now = new Date();
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                document.getElementById('time').value = `${hours}:${minutes}`;
-            });
-        </script>
-</head>
-<body>
-    <header>
-        <h1>Ραντεβού Μασάζ</h1>
-    </header>
-    
-    <section id="appointment">
-        <h2>Κλείστε Ραντεβού</h2>
-        <!-- Η φόρμα για το ραντεβού -->
-        <form id="appointmentForm" onsubmit="sendMail(event);">
-            <label for="name">Όνομα:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="date">Ημερομηνία:</label>
-            <input type="date" id="date" name="date" required>
-            
-            <label for="time">Ώρα:</label>
-            <input type="time" id="time" name="time" required>
-            
-            <label for="service">Επιλογή Υπηρεσίας:</label>
-            <select id="service" name="service" required>
-                <option value="relaxing">Χαλαρωτικό Μασάζ</option>
-                <option value="therapeutic">Θεραπευτικό Μασάζ</option>
-                <option value="aromatherapy">Μασάζ Αρωματοθεραπείας</option>
-            </select>
-            
-            <button type="submit">Κλείστε Ραντεβού</button>
-        </form>
-    </section>
+
 </body>
 </html>
