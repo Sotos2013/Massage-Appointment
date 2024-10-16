@@ -46,55 +46,92 @@
             <li><strong>Αρωματοθεραπεία</strong>: Συνδυασμός μασάζ με αιθέρια έλαια για βαθιά χαλάρωση.</li>
         </ul>
     </section>
-
-    <!-- Φόρμα Ραντεβού -->
-    <section id="appointment">
-        <h2>Κλείστε Ραντεβού</h2>
-        <form id="appointmentForm" onsubmit="sendMail(event);">
-            <label for="name">Όνομα:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="date">Ημερομηνία:</label>
-            <input type="date" id="date" name="date" required>
-
-            <label for="time">Ώρα:</label>
-            <input type="time" id="time" name="time" required>
-
-            <label for="service">Επιλογή Υπηρεσίας:</label>
-            <select id="service" name="service" required>
-                <option value="relaxing">Χαλαρωτικό Μασάζ</option>
-                <option value="therapeutic">Θεραπευτικό Μασάζ</option>
-                <option value="aromatherapy">Αρωματοθεραπεία</option>
+    
+<!-- Φόρμα Ραντεβού με EmailJS -->
+<section id="appointment">
+    <h2>Κλείστε Ραντεβού</h2>
+    <div id="appointmentForm"></div>
+  
+    <script type="text/babel">
+      const { useState } = React;
+  
+      // Appointment Form Component
+      function AppointmentForm() {
+        const [formData, setFormData] = useState({
+          name: '',
+          email: '',
+          date: '',
+          time: '',
+          service: 'relaxing',
+        });
+  
+        const handleChange = (e) => {
+          setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+          });
+        };
+  
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          sendMail();
+        };
+  
+        const sendMail = () => {
+          var templateParams = {
+            name: formData.name,
+            email: formData.email,
+            date: formData.date,
+            time: formData.time,
+            service: formData.service,
+          };
+  
+          emailjs.send('service_f9330os', 'template_auv3huc', templateParams)
+            .then(function(response) {
+              alert('Το email στάλθηκε επιτυχώς!');
+              setFormData({
+                name: '',
+                email: '',
+                date: '',
+                time: '',
+                service: 'relaxing',
+              });
+            }, function(error) {
+              alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
+            });
+        };
+  
+        return (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="name">Όνομα:</label>
+            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+  
+            <label htmlFor="email">Email:</label>
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+  
+            <label htmlFor="date">Ημερομηνία:</label>
+            <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required />
+  
+            <label htmlFor="time">Ώρα:</label>
+            <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required />
+  
+            <label htmlFor="service">Επιλογή Υπηρεσίας:</label>
+            <select id="service" name="service" value={formData.service} onChange={handleChange} required>
+              <option value="relaxing">Χαλαρωτικό Μασάζ</option>
+              <option value="therapeutic">Θεραπευτικό Μασάζ</option>
+              <option value="aromatherapy">Αρωματοθεραπεία</option>
             </select>
-
+  
             <button type="submit">Κλείστε Ραντεβού</button>
-        </form>
-
-        <!-- PayPal Πληρωμή -->
-        <h3>Πληρώστε το ραντεβού σας</h3>
-        <div id="paypal-button-container"></div>
-        <script>
-            paypal.Buttons({
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: '50.00' // Προσαρμόστε το ποσό αναλόγως της υπηρεσίας
-                            }
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        alert('Πληρωμή επιτυχής από ' + details.payer.name.given_name);
-                    });
-                }
-            }).render('#paypal-button-container');
-        </script>
-    </section>
+          </form>
+        );
+      }
+  
+      // Render the form component in the appointmentForm div
+      ReactDOM.render(<AppointmentForm />, document.getElementById('appointmentForm'));
+    </script>
+  </section>
+  
 
     <!-- Επικοινωνία -->
     <section id="contact">
