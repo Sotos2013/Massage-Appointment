@@ -107,11 +107,6 @@
         e.preventDefault();
         sendMail('confirmation'); // Στείλτε email επιβεβαίωσης
       };
-      
-      const handleCancellation = () => {
-        sendMail('cancellation'); // Στείλτε email ακύρωσης
-      };
-
 
       const sendMail = (type) => {
         const templateParams = {
@@ -120,10 +115,9 @@
           date: formData.date,
           time: formData.time,
           service: formData.service,
-          action: type, // Επιβεβαίωση ή ακύρωση
         };
 
-        const templateID = type === 'confirmation' ? 'template_confirmation' : 'template_cancellation';
+        const templateID = type === 'confirmation' ? 'template_7ksj9km' : 'template_cancellation';
 
         emailjs.send('service_f9330os', templateID, templateParams)
           .then(function(response) {
