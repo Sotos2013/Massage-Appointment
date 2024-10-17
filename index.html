@@ -78,103 +78,108 @@
             <li><strong>Αρωματοθεραπεία</strong>: Συνδυασμός μασάζ με αιθέρια έλαια για βαθιά χαλάρωση.</li>
         </ul>
     </section>
-
 <!-- Φόρμα Ραντεβού με Bootstrap και EmailJS -->
 <section id="appointment" class="container my-5">
-    <h2 class="text-center mb-4">Κλείστε Ραντεβού</h2>
-    <div id="appointmentForm" class="row justify-content-center"></div>
-  
-    <script type="text/babel">
-      const { useState } = React;
-  
-      // Appointment Form Component
-      function AppointmentForm() {
-        const [formData, setFormData] = useState({
-          name: '',
-          email: '',
-          date: '',
-          time: '',
-          service: 'relaxing',
+  <h2 class="text-center mb-4">Κλείστε Ραντεβού</h2>
+  <div id="appointmentForm" class="row justify-content-center"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // Appointment Form Component
+    function AppointmentForm() {
+      const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        date: '',
+        time: '',
+        service: 'relaxing',
+      });
+
+      const handleChange = (e) => {
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
         });
-  
-        const handleChange = (e) => {
-          setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-          });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        sendMail('confirmation'); // Στείλτε email επιβεβαίωσης
+      };
+      
+      const handleCancellation = () => {
+        sendMail('cancellation'); // Στείλτε email ακύρωσης
+      };
+
+
+      const sendMail = (type) => {
+        const templateParams = {
+          name: formData.name,
+          email: formData.email,
+          date: formData.date,
+          time: formData.time,
+          service: formData.service,
+          action: type, // Επιβεβαίωση ή ακύρωση
         };
-  
-        const handleSubmit = (e) => {
-          e.preventDefault();
-          sendMail();
-        };
-  
-        const sendMail = () => {
-          var templateParams = {
-            name: formData.name,
-            email: formData.email,
-            date: formData.date,
-            time: formData.time,
-            service: formData.service,
-          };
-  
-          emailjs.send('service_f9330os', 'template_auv3huc', templateParams)
-            .then(function(response) {
-              alert('Το email στάλθηκε επιτυχώς!');
-              setFormData({
-                name: '',
-                email: '',
-                date: '',
-                time: '',
-                service: 'relaxing',
-              });
-            }, function(error) {
-              alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
+
+        const templateID = type === 'confirmation' ? 'template_confirmation' : 'template_cancellation';
+
+        emailjs.send('service_f9330os', templateID, templateParams)
+          .then(function(response) {
+            alert('Το email στάλθηκε επιτυχώς!');
+            setFormData({
+              name: '',
+              email: '',
+              date: '',
+              time: '',
+              service: 'relaxing',
             });
-        };
-  
-        return (
-          <form onSubmit={handleSubmit} class="col-md-6">
-            <div class="form-group">
-              <label htmlFor="name">Όνομα:</label>
-              <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required class="form-control" />
-            </div>
-  
-            <div class="form-group">
-              <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required class="form-control" />
-            </div>
-  
-            <div class="form-group">
-              <label htmlFor="date">Ημερομηνία:</label>
-              <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required class="form-control" />
-            </div>
-  
-            <div class="form-group">
-              <label htmlFor="time">Ώρα:</label>
-              <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required class="form-control" />
-            </div>
-  
-            <div class="form-group">
-              <label htmlFor="service">Επιλογή Υπηρεσίας:</label>
-              <select id="service" name="service" value={formData.service} onChange={handleChange} required class="form-control">
-                <option value="relaxing">Χαλαρωτικό Μασάζ</option>
-                <option value="therapeutic">Θεραπευτικό Μασάζ</option>
-                <option value="aromatherapy">Αρωματοθεραπεία</option>
-              </select>
-            </div>
-  
-            <button type="submit" class="btn btn-primary btn-block">Κλείστε Ραντεβού</button>
-          </form>
-        );
-      }
-  
-      // Render the form component in the appointmentForm div
-      ReactDOM.render(<AppointmentForm />, document.getElementById('appointmentForm'));
-    </script>
-  </section>
-  
-  
+          }, function(error) {
+            alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
+          });
+      };
+
+      return (
+        <form onSubmit={handleSubmit} className="col-md-6">
+          <div className="form-group">
+            <label htmlFor="name">Όνομα:</label>
+            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="form-control" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="form-control" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="date">Ημερομηνία:</label>
+            <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required className="form-control" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="time">Ώρα:</label>
+            <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required className="form-control" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="service">Επιλογή Υπηρεσίας:</label>
+            <select id="service" name="service" value={formData.service} onChange={handleChange} required className="form-control">
+              <option value="relaxing">Χαλαρωτικό Μασάζ</option>
+              <option value="therapeutic">Θεραπευτικό Μασάζ</option>
+              <option value="aromatherapy">Αρωματοθεραπεία</option>
+            </select>
+          </div>
+
+          <button type="submit" className="btn btn-primary btn-block">Κλείστε Ραντεβού</button>
+        </form>
+      );
+    }
+
+    // Render the form component in the appointmentForm div
+    ReactDOM.render(<AppointmentForm />, document.getElementById('appointmentForm'));
+  </script>
+</section>
 
     <!-- Επικοινωνία  -->
     <section id="contact">
