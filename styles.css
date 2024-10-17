@@ -1,30 +1,51 @@
+/* Βασικό στυλ για όλη τη σελίδα */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    line-height: 1.6;
+    color: #333;
 }
-input:focus {
+
+/* Στυλ για την επικέντρωση στο input */
+input:focus, textarea:focus, select:focus {
     border-color: #3498db;
     outline: none;
-    box-shadow: 0 0 10px #3498db;
- }
- @media (max-width: 768px) {
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Στυλ για mobile (έως 768px πλάτος) */
+@media (max-width: 768px) {
     header, nav, section, footer {
         padding: 15px;
     }
     form {
         width: 100%;
     }
- }
-  
+    nav ul {
+        display: flex;
+        flex-direction: column;
+    }
+    nav ul li {
+        padding: 10px;
+    }
+    section#appointment form {
+        grid-template-columns: 1fr; /* Μονή στήλη για μικρές οθόνες */
+    }
+}
+
+/* Στυλ για το header */
 header {
     background-color: #333;
     color: #fff;
-    padding: 1em 0;
+    padding: 1.5em 0;
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Στυλ για το navigation menu */
 nav ul {
     background-color: #444;
     overflow: hidden;
@@ -32,27 +53,48 @@ nav ul {
     padding: 0;
     text-align: center;
     margin: 0;
+    list-style-type: none;
 }
 
 nav ul li {
-    display: inline;
+    display: inline-block;
     padding: 20px;
 }
 
 nav ul li a {
     color: #fff;
     text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
+nav ul li a:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+
+/* Στυλ για το section */
 section {
     padding: 2em;
     margin: 1em 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+section h2 {
+    color: #3498db;
+    font-size: 1.8em;
+    margin-bottom: 1em;
+}
+
+/* Στυλ για τη φόρμα του ραντεβού */
 section#appointment form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1em;
+    gap: 1.5em;
 }
 
 section#appointment form label,
@@ -60,14 +102,80 @@ section#appointment form input,
 section#appointment form select,
 section#appointment form button {
     grid-column: span 2;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
+section#appointment form button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+section#appointment form button:hover {
+    background-color: #2980b9;
+}
+
+section#appointment form input,
+section#appointment form select {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Στυλ για το footer */
 footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 1em 0;
+    padding: 1.5em 0;
     position: fixed;
     width: 100%;
     bottom: 0;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+footer ul li {
+    margin: 0 10px;
+}
+
+footer ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+    color: #3498db;
+}
+
+/* Κουμπιά & Στυλ Φόρμας */
+button, input, textarea, select {
+    font-family: inherit;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+/* Hover Effects για Κουμπιά */
+button:hover {
+    background-color: #2980b9;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Σκιές και μεταβάσεις για καλύτερη εμφάνιση */
+section, header, footer, nav ul li a, button {
+    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease;
 }
