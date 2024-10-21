@@ -150,7 +150,7 @@
 
                     const templateID = type === 'confirmation' ? 'template_7ksj9km' : 'template_cancellation';
 
-                    emailjs.send('service_f9330zd', templateID, templateParams)
+                    emailjs.send('service_f9330os', templateID, templateParams)
                         .then(() => alert('Η κράτηση σας ολοκληρώθηκε! Θα λάβετε email επιβεβαίωσης.'))
                         .catch(() => alert('Παρουσιάστηκε σφάλμα κατά την αποστολή του email.'));
                 };
