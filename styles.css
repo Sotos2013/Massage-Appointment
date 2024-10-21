@@ -1,10 +1,29 @@
 /* Βασικό στυλ για όλη τη σελίδα */
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --header-bg: #f8f9fa;
+    --footer-bg: #f8f9fa;
+    --button-bg: #007bff;
+    --button-text: #ffffff;
+    --form-bg: #ffffff;
+}
+
+.dark-theme {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --header-bg: #333333;
+    --footer-bg: #333333;
+    --button-bg: #4CAF50;
+    --button-text: #ffffff;
+    --form-bg: #1e1e1e;
+}
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ffffff; /* Λευκό φόντο */
-    color: #333333; /* Σκούρο γκρι κείμενο */
+    background-color: var(--background-color);
+    color: var(--text-color);
     line-height: 1.6;
 }
 h1, h2, h3 {
@@ -50,8 +69,7 @@ input:focus, textarea:focus, select:focus {
   
 /* Στυλ για το header */
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--header-bg);
     padding: 1.5em 0;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -91,7 +109,8 @@ nav ul li a:hover {
 section {
     padding: 2em;
     margin: 1em 0;
-    background-color: #fff;
+    background-color: var(--background-color);
+    color: var(--text-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -139,8 +158,7 @@ section#appointment form select {
 
 /* Στυλ για το footer */
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--header-bg);
     text-align: center;
     padding: 1.5em 0;
     position: fixed;
@@ -178,6 +196,8 @@ button, input, textarea, select {
     border-radius: 5px;
     border: 1px solid #ccc;
     margin-top: 10px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
 }
 
 /* Hover Effects για Κουμπιά */
@@ -191,3 +211,7 @@ button:hover {
 section, header, footer, nav ul li a, button {
     transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease;
 }
+body, header, footer, section, input, select, textarea, button {
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
