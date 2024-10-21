@@ -108,7 +108,6 @@
             </li>
         </ul>
     </section>
-
     <!-- Φόρμα Ραντεβού με Bootstrap και EmailJS -->
     <section id="appointment" class="container my-5">
         <h2 class="text-center mb-4">Κλείστε Ραντεβού</h2>
@@ -151,46 +150,60 @@
                     const templateID = type === 'confirmation' ? 'template_7ksj9km' : 'template_cancellation';
 
                     emailjs.send('service_f9330os', templateID, templateParams)
-                        .then(() => alert('Η κράτηση σας ολοκληρώθηκε! Θα λάβετε email επιβεβαίωσης.'))
-                        .catch(() => alert('Παρουσιάστηκε σφάλμα κατά την αποστολή του email.'));
+                        .then(function(response) {
+                            alert('Το email στάλθηκε επιτυχώς!');
+                            setFormData({
+                                name: '',
+                                email: '',
+                                date: '',
+                                time: '',
+                                service: 'relaxing',
+                            });
+                        }, function(error) {
+                            alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
+                        });
                 };
 
                 return (
-                    <form onSubmit={handleSubmit} className="p-4 shadow bg-light rounded">
+                    <form onSubmit={handleSubmit} className="col-md-6">
                         <div className="form-group">
                             <label htmlFor="name">Όνομα:</label>
-                            <input type="text" className="form-control" id="name" name="name" value={formData.name} onChange={handleChange} required aria-label="Όνομα" />
+                            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="form-control" />
                         </div>
+
                         <div className="form-group">
                             <label htmlFor="email">Email:</label>
-                            <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} required aria-label="Email" />
+                            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="form-control" />
                         </div>
+
                         <div className="form-group">
                             <label htmlFor="date">Ημερομηνία:</label>
-                            <input type="date" className="form-control" id="date" name="date" value={formData.date} onChange={handleChange} required aria-label="Ημερομηνία" />
+                            <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required className="form-control" />
                         </div>
+
                         <div className="form-group">
                             <label htmlFor="time">Ώρα:</label>
-                            <input type="time" className="form-control" id="time" name="time" value={formData.time} onChange={handleChange} required aria-label="Ώρα" />
+                            <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required className="form-control" />
                         </div>
+
                         <div className="form-group">
-                            <label htmlFor="service">Επιλέξτε Υπηρεσία:</label>
-                            <select id="service" name="service" className="form-control" value={formData.service} onChange={handleChange} required aria-label="Υπηρεσία">
+                            <label htmlFor="service">Επιλογή Υπηρεσίας:</label>
+                            <select id="service" name="service" value={formData.service} onChange={handleChange} required className="form-control">
                                 <option value="relaxing">Χαλαρωτικό Μασάζ</option>
                                 <option value="therapeutic">Θεραπευτικό Μασάζ</option>
                                 <option value="aromatherapy">Αρωματοθεραπεία</option>
                             </select>
                         </div>
+
                         <button type="submit" className="btn btn-primary btn-block">Κλείστε Ραντεβού</button>
                     </form>
                 );
             }
 
-            // Render the form
+            // Render the form component in the appointmentForm div
             ReactDOM.render(<AppointmentForm />, document.getElementById('appointmentForm'));
         </script>
     </section>
-
     <!-- Επικοινωνία -->
     <section id="contact" class="text-center my-5">
         <h2>Επικοινωνία</h2>
