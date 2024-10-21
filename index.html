@@ -134,9 +134,15 @@
         };
   
         const handleSubmit = (e) => {
-          e.preventDefault();
-          sendMail();
+        e.preventDefault();
+        const today = new Date().toISOString().split('T')[0];
+        if (formData.date < today) {
+            alert('Η ημερομηνία δεν μπορεί να είναι στο παρελθόν.');
+            return;
+        }
+        sendMail();
         };
+
   
         const sendMail = () => {
           var templateParams = {

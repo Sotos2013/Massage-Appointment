@@ -39,7 +39,15 @@ input:focus, textarea:focus, select:focus {
         grid-template-columns: 1fr; /* Μονή στήλη για μικρές οθόνες */
     }
 }
-
+@media only screen and (max-width: 600px) {
+    .install-button {
+      width: 100%;
+      bottom: 0;
+      position: fixed;
+      z-index: 1000;
+    }
+  }
+  
 /* Στυλ για το header */
 header {
     background-color: #333;
