@@ -6,16 +6,67 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Κέντρο Μασάζ</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- PayPal SDK για πληρωμές -->
+    <style>
+        /* Parallax Effect */
+        .parallax {
+            background-image: url('massage_image.jpg');
+            height: 500px;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Lazy Loading Images */
+        img.lazy {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        img.lazy.loaded {
+            opacity: 1;
+        }
+
+        /* Modal Styles */
+        .modal-header, .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Button Animations */
+        button {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animation for Section Titles */
+        h2 {
+            animation: fadeIn 2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+    <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=Your_Client_ID&currency=EUR"></script>
-    <!-- EmailJS SDK για email -->
+    <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
         (function(){
@@ -46,7 +97,6 @@
             });
         });
     </script>
-    
 </head>
 <body>
 
@@ -63,144 +113,62 @@
         <h1>Καλωσορίσατε στο Κέντρο Μασάζ</h1>
     </header>
 
-    <!-- Αρχική Σελίδα -->
-    <section id="home" class="text-center my-5">
-        <h2>Χαλάρωση και Ευεξία</h2>
-        <p>Προσφέρουμε επαγγελματικές υπηρεσίες μασάζ για την αναζωογόνηση του σώματος και του πνεύματος.</p>
-        <img src="icons/massage_image.jpg" alt="Μασάζ" class="img-fluid">
+    <!-- Αρχική Σελίδα με Parallax -->
+    <section id="home" class="parallax text-center my-5">
+        <h2 class="text-light">Χαλάρωση και Ευεξία</h2>
+        <p class="text-light">Προσφέρουμε επαγγελματικές υπηρεσίες μασάζ για την αναζωογόνηση του σώματος και του πνεύματος.</p>
     </section>
 
-    <!-- Υπηρεσίες -->
+    <!-- Υπηρεσίες με Lazy Loading και Modal -->
     <section id="services" class="container my-5">
         <h2 class="text-center">Οι Υπηρεσίες μας</h2>
-        <ul class="list-unstyled">
-            <li class="media">
-                <img src="icons/relaxing_massage.jpg" class="mr-3" alt="Χαλαρωτικό Μασάζ" style="width: 80px; height: 80px;">
-                <div class="media-body">
-                    <h5 class="mt-0">Χαλαρωτικό Μασάζ</h5>
-                    Χαλαρώστε και ανακουφιστείτε από το άγχος.
-                </div>
-            </li>
-            <li class="media">
-                <img src="icons/therapeutic_massage.jpg" class="mr-3" alt="Θεραπευτικό Μασάζ" style="width: 80px; height: 80px;">
-                <div class="media-body">
-                    <h5 class="mt-0">Θεραπευτικό Μασάζ</h5>
-                    Ανακούφιση από πόνους και μυϊκές εντάσεις.
-                </div>
-            </li>
-            <li class="media">
-                <img src="icons/aromatherapy.jpg" class="mr-3" alt="Αρωματοθεραπεία" style="width: 80px; height: 80px;">
-                <div class="media-body">
-                    <h5 class="mt-0">Αρωματοθεραπεία</h5>
-                    Συνδυασμός μασάζ με αιθέρια έλαια για βαθιά χαλάρωση.
-                </div>
-            </li>
-        </ul>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <img data-src="icons/relaxing_massage.jpg" alt="Χαλαρωτικό Μασάζ" class="lazy img-fluid" style="width: 80px; height: 80px;">
+                <h5>Χαλαρωτικό Μασάζ</h5>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#relaxModal">Περισσότερα</button>
+            </div>
+            <div class="col-md-4">
+                <img data-src="icons/therapeutic_massage.jpg" alt="Θεραπευτικό Μασάζ" class="lazy img-fluid" style="width: 80px; height: 80px;">
+                <h5>Θεραπευτικό Μασάζ</h5>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#therapyModal">Περισσότερα</button>
+            </div>
+            <div class="col-md-4">
+                <img data-src="icons/aromatherapy.jpg" alt="Αρωματοθεραπεία" class="lazy img-fluid" style="width: 80px; height: 80px;">
+                <h5>Αρωματοθεραπεία</h5>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#aromaModal">Περισσότερα</button>
+            </div>
+        </div>
     </section>
 
-    <!-- Φόρμα Ραντεβού με Bootstrap και EmailJS -->
-    <section id="appointment" class="container my-5">
-        <h2 class="text-center mb-4">Κλείστε Ραντεβού</h2>
-        <div id="appointmentForm" class="row justify-content-center"></div>
+    <!-- Modals για Υπηρεσίες -->
+    <div class="modal fade" id="relaxModal" tabindex="-1" role="dialog" aria-labelledby="relaxModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="relaxModalLabel">Χαλαρωτικό Μασάζ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Το χαλαρωτικό μασάζ προσφέρει βαθιά χαλάρωση και ευεξία στο σώμα σας.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Κλείσιμο</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <script type="text/babel">
-            const { useState } = React;
+    <!-- Περισσότερα modals (therapyModal, aromaModal) κ.λπ. -->
 
-            // Appointment Form Component
-            function AppointmentForm() {
-                const [formData, setFormData] = useState({
-                    name: '',
-                    email: '',
-                    date: '',
-                    time: '',
-                    service: 'relaxing',
-                });
-
-                const handleChange = (e) => {
-                    setFormData({
-                        ...formData,
-                        [e.target.name]: e.target.value,
-                    });
-                };
-
-                const handleSubmit = (e) => {
-                    e.preventDefault();
-                    sendMail('confirmation'); // Στείλτε email επιβεβαίωσης
-                };
-
-                const sendMail = (type) => {
-                    const templateParams = {
-                        name: formData.name,
-                        email: formData.email,
-                        date: formData.date,
-                        time: formData.time,
-                        service: formData.service,
-                    };
-
-                    const templateID = type === 'confirmation' ? 'template_7ksj9km' : 'template_cancellation';
-
-                    emailjs.send('service_f9330os', templateID, templateParams)
-                        .then(function(response) {
-                            alert('Το email στάλθηκε επιτυχώς!');
-                            setFormData({
-                                name: '',
-                                email: '',
-                                date: '',
-                                time: '',
-                                service: 'relaxing',
-                            });
-                        }, function(error) {
-                            alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
-                        });
-                };
-
-                return (
-                    <form onSubmit={handleSubmit} className="col-md-6">
-                        <div className="form-group">
-                            <label htmlFor="name">Όνομα:</label>
-                            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="form-control" />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="email">Email:</label>
-                            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="form-control" />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="date">Ημερομηνία:</label>
-                            <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required className="form-control" />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="time">Ώρα:</label>
-                            <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required className="form-control" />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="service">Επιλογή Υπηρεσίας:</label>
-                            <select id="service" name="service" value={formData.service} onChange={handleChange} required className="form-control">
-                                <option value="relaxing">Χαλαρωτικό Μασάζ</option>
-                                <option value="therapeutic">Θεραπευτικό Μασάζ</option>
-                                <option value="aromatherapy">Αρωματοθεραπεία</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" className="btn btn-primary btn-block">Κλείστε Ραντεβού</button>
-                    </form>
-                );
-            }
-
-            // Render the form component in the appointmentForm div
-            ReactDOM.render(<AppointmentForm />, document.getElementById('appointmentForm'));
-        </script>
-    </section>
-
-    <!-- Επικοινωνία  -->
+    <!-- Επικοινωνία -->
     <section id="contact" class="container my-5">
         <h2 class="text-center">Επικοινωνήστε μαζί μας</h2>
         <p>Email: contact@massagecenter.gr</p>
         <p>Τηλέφωνο: +30 210 1234567</p>
-        <form>
+        <form onsubmit="sendMail(event)">
             <label for="message">Το μήνυμά σας:</label>
             <textarea id="message" name="message" rows="4" required class="form-control"></textarea>
             <button type="submit" class="btn btn-primary mt-2">Αποστολή</button>
@@ -213,41 +181,51 @@
         <div>
             <a href="#"><i class="fab fa-facebook-f"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
         </div>
     </footer>
 
-    <!-- Script για αποστολή email μέσω EmailJS -->
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function sendMail(event) {
-            event.preventDefault();
-            var templateParams = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                date: document.getElementById('date').value,
-                time: document.getElementById('time').value,
-                service: document.getElementById('service').value
-            };
+        // Lazy Loading Script
+        document.addEventListener("DOMContentLoaded", function() {
+            let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
 
-            emailjs.send('service_f9330os', 'template_auv3huc', templateParams)
-                .then(function(response) {
-                    alert('Το email στάλθηκε επιτυχώς!');
-                    document.getElementById('appointmentForm').reset();
-                }, function(error) {
-                    alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
+            if ("IntersectionObserver" in window) {
+                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            let lazyImage = entry.target;
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.add("loaded");
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
                 });
-        }
-    </script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function(error) {
-            console.log('ServiceWorker registration failed: ', error);
-          });
-        });
-      }
-    </script>
 
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                let lazyLoad = throttle(function() {
+                    let scrollTop = window.pageYOffset;
+                    lazyImages.forEach(function(img) {
+                        if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                            img.src = img.dataset.src;
+                            img.classList.add("loaded");
+                        }
+                    });
+                }, 20);
+
+                document.addEventListener("scroll", lazyLoad);
+                window.addEventListener("resize", lazyLoad);
+                window.addEventListener("orientationChange", lazyLoad);
+            }
+        });
+    </script>
 </body>
 </html>
