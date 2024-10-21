@@ -7,6 +7,10 @@ body {
     color: #333333; /* Σκούρο γκρι κείμενο */
     line-height: 1.6;
 }
+h1, h2, h3 {
+    color: #4CAF50; /* Σκούρο πράσινο χρώμα για τους τίτλους */
+    text-shadow: 1px 1px 2px #000000; /* Μαύρη σκιά για πιο έντονη εμφάνιση */
+}
 
 /* Στυλ για την επικέντρωση στο input */
 input:focus, textarea:focus, select:focus {
