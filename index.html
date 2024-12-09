@@ -167,8 +167,23 @@
   
             <div class="form-group">
               <label htmlFor="time">Ώρα:</label>
-              <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required class="form-control" />
-            </div>
+              <select 
+                  id="time" 
+                  name="time" 
+                  value={formData.time} 
+                  onChange={handleChange} 
+                  required 
+                  class="form-control"
+              >
+                  <option value="" disabled>Επιλέξτε ώρα</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+              </select>
+          </div>
+
   
             <button type="submit" class="btn btn-primary btn-block">Κλείστε Ραντεβού</button>
           </form>
@@ -182,17 +197,12 @@
     <!-- Επικοινωνία -->
     <section id="contact" class="text-center my-5">
         <h2>Επικοινωνία</h2>
-        <p>Διεύθυνση: Οδός Υγείας 123, Αθήνα</p>
-        <p>Τηλέφωνο: +30 210 1234567</p>
+        <p>Διεύθυνση: Νέα Τρίγλια</p>
+        <p>Τηλέφωνο: +30 6947519335</p>
         <div class="map-responsive">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345098176!2d144.95592831531646!3d-37.817209979751734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577a6d0900c9a79!2sCrown%20Casino!5e0!3m2!1sen!2sau!4v1615310354980!5m2!1sen!2sau" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d48674.83459732038!2d23.179652602547215!3d40.31622552871655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDE4JzU4LjQiTiAyM8KwMTInMDEuNyJF!5e0!3m2!1sel!2sgr!4v1733733188825!5m2!1sel!2sgr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="text-center py-4 bg-light">
-        <p>&copy; 2024 Κέντρο Μασάζ. Όλα τα δικαιώματα κατοχυρωμένα.</p>
-    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
