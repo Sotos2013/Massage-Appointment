@@ -121,9 +121,11 @@
       const sidebar = document.getElementById('sidebar');
       const menuToggle = document.getElementById('menuToggle');
       const closeSidebar = document.getElementById('closeSidebar');
+      const menuItems = document.querySelectorAll('.menu-item');
 
       // Άνοιγμα Sidebar
-      menuToggle.addEventListener('click', () => {
+      menuToggle.addEventListener('click', (event) => {
+          event.stopPropagation(); // Αποτροπή του click να κλείσει το μενού
           sidebar.classList.add('open');
       });
 
@@ -132,7 +134,14 @@
           sidebar.classList.remove('open');
       });
 
-      // Κλείσιμο όταν γίνεται κλικ έξω από το Sidebar
+      // Κλείσιμο Sidebar όταν επιλέγεται στοιχείο μενού
+      menuItems.forEach((item) => {
+          item.addEventListener('click', () => {
+              sidebar.classList.remove('open');
+          });
+      });
+
+      // Κλείσιμο Sidebar όταν γίνεται κλικ έξω από το Sidebar
       document.addEventListener('click', (event) => {
           if (!sidebar.contains(event.target) && event.target !== menuToggle) {
               sidebar.classList.remove('open');
