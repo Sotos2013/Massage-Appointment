@@ -61,46 +61,86 @@
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-      <!-- Button for Sidebar -->
-      <button id="sidebarToggle" class="btn btn-primary d-lg-none" aria-label="Toggle Sidebar">
-          <i class="fas fa-bars"></i>
+<!-- Header με Πλαϊνό Μενού -->
+<header>
+  <h1>Καλωσορίσατε στο Κέντρο Μασάζ του Γιώργου Βογιατζή</h1>
+  <!-- Button για άνοιγμα του Sidebar -->
+  <button class="btn btn-primary" id="menuToggle" aria-label="Άνοιγμα Μενού">
+      <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar bg-light">
+      <button class="btn btn-danger close-btn" id="closeSidebar" aria-label="Κλείσιμο Μενού">
+          <i class="fas fa-times"></i>
       </button>
-  
-      <!-- Sidebar -->
-      <nav id="sidebar" class="sidebar bg-light">
-          <ul class="list-unstyled">
-              <li><a href="#home">Αρχική</a></li>
-              <li><a href="#services">Υπηρεσίες</a></li>
-              <li><a href="#certifications">Πιστοποιήσεις</a></li>
-              <li><a href="#appointment">Ραντεβού</a></li>
-              <li><a href="#contact">Επικοινωνία</a></li>
-          </ul>
+      <nav class="nav flex-column text-center mt-4">
+          <a class="nav-link" href="#home">Αρχική</a>
+          <a class="nav-link" href="#services">Υπηρεσίες</a>
+          <a class="nav-link" href="#certifications">Πιστοποιήσεις</a>
+          <a class="nav-link" href="#appointment">Ραντεβού</a>
+          <a class="nav-link" href="#contact">Επικοινωνία</a>
       </nav>
-  </header>
-  
-  <!-- Overlay (για σκοτεινό φόντο όταν το μενού είναι ανοιχτό) -->
-  <div id="sidebarOverlay" class="sidebar-overlay"></div>
-  
-  
-    <script>
+      
+  </div>
+</header>
+
+<!-- Στυλ Sidebar -->
+<style>
+  .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px; /* Κρυμμένο αρχικά */
+      width: 250px;
+      height: 100%;
+      background-color: #f8f9fa;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease;
+      z-index: 1000;
+      overflow-y: auto;
+  }
+  .sidebar .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+  }
+  #menuToggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1100;
+  }
+  .sidebar.open {
+      left: 0; /* Εμφάνιση Sidebar */
+  }
+</style>
+
+<!-- JavaScript για το Άνοιγμα/Κλείσιμο -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
       const sidebar = document.getElementById('sidebar');
-      const sidebarOverlay = document.getElementById('sidebarOverlay');
-      const sidebarToggle = document.getElementById('sidebarToggle');
+      const menuToggle = document.getElementById('menuToggle');
+      const closeSidebar = document.getElementById('closeSidebar');
 
       // Άνοιγμα Sidebar
-      sidebarToggle.addEventListener('click', () => {
-          sidebar.classList.toggle('active');
-          sidebarOverlay.classList.toggle('active');
+      menuToggle.addEventListener('click', () => {
+          sidebar.classList.add('open');
       });
 
-      // Κλείσιμο Sidebar όταν κάνετε κλικ στο Overlay
-      sidebarOverlay.addEventListener('click', () => {
-          sidebar.classList.remove('active');
-          sidebarOverlay.classList.remove('active');
+      // Κλείσιμο Sidebar
+      closeSidebar.addEventListener('click', () => {
+          sidebar.classList.remove('open');
       });
-  </script>
+
+      // Κλείσιμο όταν γίνεται κλικ έξω από το Sidebar
+      document.addEventListener('click', (event) => {
+          if (!sidebar.contains(event.target) && event.target !== menuToggle) {
+              sidebar.classList.remove('open');
+          }
+      });
+  });
+</script>
+
 
     <!-- Αρχική Σελίδα -->
     <section id="home" class="text-center my-5">
