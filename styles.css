@@ -8,6 +8,63 @@
     --button-text: #ffffff;
     --form-bg: #ffffff;
 }
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Αρχικά είναι κρυμμένο */
+    width: 250px;
+    height: 100%;
+    background-color: #f8f9fa;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease;
+    z-index: 1050;
+    padding: 1rem;
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #333;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    color: #007bff;
+}
+
+/* Overlay Styling */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    display: none; /* Αρχικά είναι κρυμμένο */
+    transition: opacity 0.3s ease;
+}
+
+/* Sidebar Active State */
+.sidebar.active {
+    left: 0; /* Το sidebar εμφανίζεται */
+}
+
+.sidebar-overlay.active {
+    display: block; /* Εμφάνιση του σκοτεινού φόντου */
+    opacity: 1;
+}
 
 .dark-theme {
     --background-color: #121212;
