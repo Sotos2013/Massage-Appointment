@@ -14,17 +14,15 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
-    <!-- Bootstrap JS και jQuery -->
+    
+    <!-- Bootstrap & jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">    
     <link rel="stylesheet" href="styles.css">
 
-    <!-- EmailJS SDK για email -->
+    <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
         (function(){
@@ -46,11 +44,6 @@
             installButton.addEventListener('click', () => {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
                     deferredPrompt = null;
                     installButton.remove();
                 });
@@ -58,64 +51,79 @@
         });
     </script>
     
+    <style>
+      .sidebar {
+          position: fixed;
+          top: 0;
+          left: -250px;
+          width: 250px;
+          height: 100%;
+          background-color: #f8f9fa;
+          box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+          transition: left 0.3s ease;
+          z-index: 1000;
+          overflow-y: auto;
+      }
+      .sidebar .close-btn {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+      }
+      #menuToggle {
+          position: fixed;
+          top: 10px;
+          left: 10px;
+          z-index: 1100;
+      }
+      .sidebar.open {
+          left: 0;
+      }
+      .map-responsive, .video-responsive {
+          overflow: hidden;
+          padding-bottom: 56.25%;
+          position: relative;
+          height: 0;
+      }
+      .map-responsive iframe, .video-responsive iframe, .video-responsive video {
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 100%;
+          position: absolute;
+      }
+      .badge-duration {
+          background-color: #28a745;
+          color: white;
+          font-size: 0.9rem;
+          padding: 5px 10px;
+          border-radius: 12px;
+      }
+    </style>
 </head>
 <body>
 
 <!-- Header με Πλαϊνό Μενού -->
-<header>
+<header class="text-center pt-4">
   <h1>Καλωσορίσατε στο Κέντρο Μασάζ του Γιώργου Βογιατζή</h1>
-  <!-- Button για άνοιγμα του Sidebar -->
   <button class="btn btn-primary" id="menuToggle" aria-label="Άνοιγμα Μενού">
       <i class="fas fa-bars"></i>
   </button>
 
-  <!-- Sidebar -->
   <div id="sidebar" class="sidebar bg-light">
       <button class="btn btn-danger close-btn" id="closeSidebar" aria-label="Κλείσιμο Μενού">
           <i class="fas fa-times"></i>
       </button>
-      <nav class="nav flex-column text-center mt-4">
-          <a class="nav-link" href="#home">Αρχική</a>
-          <a class="nav-link" href="#services">Υπηρεσίες</a>
-          <a class="nav-link" href="#certifications">Πιστοποιήσεις</a>
-          <a class="nav-link" href="#appointment">Ραντεβού</a>
-          <a class="nav-link" href="#contact">Επικοινωνία</a>
+      <nav class="nav flex-column text-center mt-5">
+          <a class="nav-link menu-item" href="#home">Αρχική</a>
+          <a class="nav-link menu-item" href="#services">Υπηρεσίες</a>
+          <a class="nav-link menu-item" href="#education">Εκπαίδευση & Σεμινάρια</a>
+          <a class="nav-link menu-item" href="#certifications">Πιστοποιήσεις</a>
+          <a class="nav-link menu-item" href="#appointment">Ραντεβού</a>
+          <a class="nav-link menu-item" href="#contact">Επικοινωνία</a>
       </nav>
-      
   </div>
 </header>
 
-<!-- Στυλ Sidebar -->
-<style>
-  .sidebar {
-      position: fixed;
-      top: 0;
-      left: -250px; /* Κρυμμένο αρχικά */
-      width: 250px;
-      height: 100%;
-      background-color: #f8f9fa;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      transition: left 0.3s ease;
-      z-index: 1000;
-      overflow-y: auto;
-  }
-  .sidebar .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-  }
-  #menuToggle {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 1100;
-  }
-  .sidebar.open {
-      left: 0; /* Εμφάνιση Sidebar */
-  }
-</style>
-
-<!-- JavaScript για το Άνοιγμα/Κλείσιμο -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
       const sidebar = document.getElementById('sidebar');
@@ -123,25 +131,21 @@
       const closeSidebar = document.getElementById('closeSidebar');
       const menuItems = document.querySelectorAll('.menu-item');
 
-      // Άνοιγμα Sidebar
       menuToggle.addEventListener('click', (event) => {
-          event.stopPropagation(); // Αποτροπή του click να κλείσει το μενού
+          event.stopPropagation();
           sidebar.classList.add('open');
       });
 
-      // Κλείσιμο Sidebar
       closeSidebar.addEventListener('click', () => {
           sidebar.classList.remove('open');
       });
 
-      // Κλείσιμο Sidebar όταν επιλέγεται στοιχείο μενού
       menuItems.forEach((item) => {
           item.addEventListener('click', () => {
               sidebar.classList.remove('open');
           });
       });
 
-      // Κλείσιμο Sidebar όταν γίνεται κλικ έξω από το Sidebar
       document.addEventListener('click', (event) => {
           if (!sidebar.contains(event.target) && event.target !== menuToggle) {
               sidebar.classList.remove('open');
@@ -150,77 +154,136 @@
   });
 </script>
 
+<!-- Αρχική Σελίδα -->
+<section id="home" class="text-center my-5">
+    <h2>Χαλάρωση και Ευεξία</h2>
+    <p class="lead text-muted">Προσφέρουμε επαγγελματικές υπηρεσίες μασάζ για την αναζωογόνηση του σώματος και του πνεύματος.</p>
+    <div class="my-4">
+        <img src="icons/evolution.jpg" alt="Εξέλιξη του Μασάζ" class="img-fluid rounded shadow-sm" style="max-width: 85%; border-radius: 12px;">
+    </div>
+</section>
 
-    <!-- Αρχική Σελίδα -->
-    <section id="home" class="text-center my-5">
-        <h2>Χαλάρωση και Ευεξία</h2>
-        <p>Προσφέρουμε επαγγελματικές υπηρεσίες μασάζ για την αναζωογόνηση του σώματος και του πνεύματος.</p>
-        <img src="icons/massage_image.jpg" alt="Μασάζ" class="img-fluid" style="max-width: 90%;">
-    </section>
-    <!-- Πιστοποιήσεις -->
-    <section id="certifications" class="text-center my-5">
-      <h2>Πιστοποιήσεις</h2>
-      <p>Επαγγελματική πιστοποίηση μασάζ από την World Massage Federation.</p>
-      <img src="icons/1e2f448a-7d6b-4aa8-bfed-113f0d6cb91e.jpg" alt="Πιστοποίηση Μασάζ" class="img-fluid" style="max-width: 90%; border: 2px solid #ccc; padding: 10px;">
-    </section>
+<!-- Υπηρεσίες -->
+<section id="services" class="container my-5">
+    <div class="text-center mb-4">
+        <h2 class="font-weight-bold">Υπηρεσίες Massage</h2>
+        <p class="lead text-muted">Χαλάρωση, ανακούφιση και ευεξία μέσα από εξειδικευμένες τεχνικές massage.</p>
+    </div>
 
-
-    <!-- Υπηρεσίες -->
-    <section id="services" class="container my-5">
-        <h2 class="text-center">Οι Υπηρεσίες μας</h2>
-        <ul class="list-unstyled">
-            <li class="media">
-                <img src="icons/relaxing_massage.jpg" class="mr-3" alt="Χαλαρωτικό Μασάζ" style="width: 80px; height: 80px;" aria-hidden="true">
-                <div class="media-body">
-                    <h5 class="mt-0">Χαλαρωτικό Μασάζ</h5>
-                    Χαλαρώστε και ανακουφιστείτε από το άγχος.
+    <div class="row justify-content-center">
+        <!-- Υπηρεσία 1 -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body media">
+                    <img src="icons/relaxing_massage.jpg" class="mr-3 rounded" alt="Χαλαρωτικό, Θεραπευτικό Massage" style="width: 80px; height: 80px; object-fit: cover;">
+                    <div class="media-body">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h5 class="mt-0 mb-0 font-weight-bold">Χαλαρωτικό, Θεραπευτικό Massage</h5>
+                            <span class="badge badge-duration">60 λεπτά</span>
+                        </div>
+                        <p class="mb-0 text-secondary">Ιδανικό για μείωση άγχους, πόνου και βαθιά χαλάρωση.</p>
+                    </div>
                 </div>
-            </li>
-        </ul>
-    </section>
-    <!-- Φόρμα Ραντεβού με Bootstrap και EmailJS -->
-    <section id="appointment" class="container my-5">
+            </div>
+        </div>
+
+        <!-- Υπηρεσία 2 -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body media">
+                    <img src="icons/back_massage.jpg" class="mr-3 rounded" alt="Massage Πλάτης και Αυχένα" style="width: 80px; height: 80px; object-fit: cover;" onerror="this.src='icons/relaxing_massage.jpg'">
+                    <div class="media-body">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h5 class="mt-0 mb-0 font-weight-bold">Massage Πλάτης και Αυχένα</h5>
+                            <span class="badge badge-duration">30 λεπτά</span>
+                        </div>
+                        <p class="mb-0 text-secondary">Στοχευμένη ανακούφιση από ένταση και πόνο.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ενότητα Εκπαίδευσης & Σεμιναρίων -->
+<section id="education" class="container text-center my-5">
+    <span class="badge badge-success mb-2 p-2" style="font-size: 0.85rem;">ΕΚΠΑΙΔΕΥΣΗ & ΠΙΣΤΟΠΟΙΗΣΕΙΣ</span>
+    <h2 class="mb-3" style="color: #2c3a2e;">Συνεχής Κατάρτιση & Σεμινάρια</h2>
+    <p class="text-muted mb-4 mx-auto" style="max-width: 650px;">
+        Εγγύηση για την ποιότητα των υπηρεσιών μας αποτελεί η συνεχής εκπαίδευση και εξειδίκευση σε αναγνωρισμένα σεμινάρια.
+    </p>
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-9">
+            <div class="shadow-sm rounded overflow-hidden">
+                <img src="icons/seminar_photo.jpg" alt="Εκπαίδευση & Σεμινάρια" class="img-fluid rounded" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ενότητα Πιστοποιήσεων -->
+<section id="certifications" class="container text-center my-5">
+    <div class="p-4 p-md-5 bg-white rounded-lg shadow-sm border" style="border-radius: 16px; border-color: #e9ecef !important;">
+        <span class="badge badge-success mb-3 p-2 px-3" style="font-size: 0.85rem; letter-spacing: 1px; background-color: #2c3a2e;">
+            <i class="fas fa-award text-warning mr-1"></i> ΔΙΕΘΝΗΣ ΠΙΣΤΟΠΟΙΗΣΗ
+        </span>
+        <h2 class="mb-3 font-weight-bold" style="color: #2c3a2e;">World Massage Federation</h2>
+        <p class="text-muted mb-4 mx-auto" style="max-width: 680px; font-size: 1.05rem; line-height: 1.6;">
+            Επίσημη επαγγελματική πιστοποίηση μασάζ από την <strong>World Massage Federation</strong>, διασφαλίζοντας την εφαρμογή διεθνών προτύπων και εξειδικευμένων τεχνικών υψηλού επιπέδου.
+        </p>
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="p-2 bg-light rounded shadow-sm border" style="border-radius: 12px !important; border-color: #d4a373 !important;">
+                    <img src="icons/1e2f448a-7d6b-4aa8-bfed-113f0d6cb91e.jpg" alt="Πιστοποίηση Μασάζ World Massage Federation" class="img-fluid rounded shadow-sm" style="width: 100%; height: auto;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Φόρμα Ραντεβού με React & EmailJS -->
+<section id="appointment" class="container my-5">
     <h2 class="text-center mb-4">Κλείστε Ραντεβού</h2>
     <div id="appointmentForm" class="row justify-content-center"></div>
-  
+
     <script type="text/babel">
       const { useState } = React;
-  
-      // Appointment Form Component
+
       function AppointmentForm() {
         const [formData, setFormData] = useState({
           name: '',
           email: '',
           date: '',
           time: '',
-          service: 'relaxing',
+          service: 'Χαλαρωτικό, Θεραπευτικό Massage (60 λ.)',
         });
-  
+
         const handleChange = (e) => {
           setFormData({
             ...formData,
             [e.target.name]: e.target.value,
           });
         };
-  
+
         const handleSubmit = (e) => {
-        e.preventDefault();
-        const today = new Date().toISOString().split('T')[0];
-        if (formData.date < today) {
+          e.preventDefault();
+          const today = new Date().toISOString().split('T')[0];
+          if (formData.date < today) {
             alert('Η ημερομηνία δεν μπορεί να είναι στο παρελθόν.');
             return;
-        }
-        sendMail();
+          }
+          sendMail();
         };
+
         const sendMail = () => {
-          var templateParams = {
+          const templateParams = {
             name: formData.name,
             email: formData.email,
             date: formData.date,
             time: formData.time,
             service: formData.service,
           };
-  
+
           emailjs.send('service_f9330os', 'template_auv3huc', templateParams)
             .then(function(response) {
               alert('Το email στάλθηκε επιτυχώς!');
@@ -229,31 +292,46 @@
                 email: '',
                 date: '',
                 time: '',
-                service: 'relaxing',
+                service: 'Χαλαρωτικό, Θεραπευτικό Massage (60 λ.)',
               });
             }, function(error) {
               alert('Σφάλμα κατά την αποστολή του email: ' + error.text);
             });
         };
-  
+
         return (
-          <form onSubmit={handleSubmit} class="col-md-6">
-            <div class="form-group">
+          <form onSubmit={handleSubmit} className="col-md-6 bg-light p-4 rounded shadow-sm">
+            <div className="form-group">
               <label htmlFor="name">Όνομα:</label>
-              <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required class="form-control" />
+              <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="form-control" />
             </div>
-  
-            <div class="form-group">
+
+            <div className="form-group">
               <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required class="form-control" />
+              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="form-control" />
             </div>
-  
-            <div class="form-group">
+
+            <div className="form-group">
+              <label htmlFor="service">Επιλογή Υπηρεσίας:</label>
+              <select 
+                  id="service" 
+                  name="service" 
+                  value={formData.service} 
+                  onChange={handleChange} 
+                  required 
+                  className="form-control"
+              >
+                  <option value="Χαλαρωτικό, Θεραπευτικό Massage (60 λ.)">Χαλαρωτικό, Θεραπευτικό Massage - 60 λεπτά</option>
+                  <option value="Massage Πλάτης και Αυχένα (30 λ.)">Massage Πλάτης και Αυχένα - 30 λεπτά</option>
+              </select>
+            </div>
+
+            <div className="form-group">
               <label htmlFor="date">Ημερομηνία:</label>
-              <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required class="form-control" />
+              <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required className="form-control" />
             </div>
-  
-            <div class="form-group">
+
+            <div className="form-group">
               <label htmlFor="time">Ώρα:</label>
               <select 
                   id="time" 
@@ -261,7 +339,7 @@
                   value={formData.time} 
                   onChange={handleChange} 
                   required 
-                  class="form-control"
+                  className="form-control"
               >
                   <option value="" disabled>Επιλέξτε ώρα</option>
                   <option value="17:00">17:00</option>
@@ -270,30 +348,57 @@
                   <option value="20:00">20:00</option>
                   <option value="21:00">21:00</option>
               </select>
-          </div>
+            </div>
 
-  
-            <button type="submit" class="btn btn-primary btn-block">Κλείστε Ραντεβού</button>
+            <button type="submit" className="btn btn-primary btn-block">Κλείστε Ραντεβού</button>
           </form>
         );
       }
-  
-      // Render the form component in the appointmentForm div
+
       ReactDOM.render(<AppointmentForm />, document.getElementById('appointmentForm'));
     </script>
-  </section>
-    <!-- Επικοινωνία -->
-    <section id="contact" class="text-center my-5">
-        <h2>Επικοινωνία</h2>
-        <p>Διεύθυνση: Νέα Τρίγλια</p>
-        <p>Τηλέφωνο: +30 6947519335</p>
-        <div class="map-responsive">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d48674.83459732038!2d23.179652602547215!3d40.31622552871655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDE4JzU4LjQiTiAyM8KwMTInMDEuNyJF!5e0!3m2!1sel!2sgr!4v1733733188825!5m2!1sel!2sgr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </section>
+</section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Επικοινωνία -->
+<section id="contact" class="container my-5">
+    <div class="card shadow-sm border-0 overflow-hidden" style="border-radius: 16px;">
+        <div class="row no-gutters">
+            <!-- Πληροφορίες Επικοινωνίας -->
+            <div class="col-lg-5 p-4 p-md-5 bg-light d-flex flex-column justify-content-center text-left">
+                <span class="badge badge-success mb-3 p-2 align-self-start" style="font-size: 0.85rem;">ΕΠΙΚΟΙΝΩΝΙΑ</span>
+                <h2 class="font-weight-bold mb-3" style="color: #2c3a2e;">Επισκεφθείτε μας</h2>
+                <p class="text-muted mb-4">Ελάτε στον χώρο μας για μια μοναδική εμπειρία χαλάρωσης και ευεξίας.</p>
+                
+                <div class="media mb-3">
+                    <i class="fas fa-map-marker-alt fa-lg text-success mr-3 mt-1"></i>
+                    <div class="media-body">
+                        <h6 class="mb-0 font-weight-bold">Διεύθυνση</h6>
+                        <small class="text-muted">Νέα Τρίγλια, Χαλκιδική</small>
+                    </div>
+                </div>
+
+                <div class="media mb-4">
+                    <i class="fas fa-phone-alt fa-lg text-success mr-3 mt-1"></i>
+                    <div class="media-body">
+                        <h6 class="mb-0 font-weight-bold">Τηλέφωνο</h6>
+                        <small class="text-muted"><a href="tel:+306947519335" class="text-dark">+30 6947519335</a></small>
+                    </div>
+                </div>
+
+                <a href="https://maps.google.com/?q=40.3162255,23.1796526" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-lg btn-block rounded-pill">
+                    <i class="fas fa-directions mr-2"></i>Οδηγίες Πλοήγησης
+                </a>
+            </div>
+
+            <!-- Responsive Χάρτης -->
+            <div class="col-lg-7 position-relative" style="min-height: 380px;">
+                <div class="map-responsive h-100 w-100 position-absolute" style="top: 0; left: 0;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d48674.83459732038!2d23.179652602547215!3d40.31622552871655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDE4JzU4LjQiTiAyM8KwMTInMDEuNyJF!5e0!3m2!1sel!2sgr!4v1733733188825!5m2!1sel!2sgr" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>
