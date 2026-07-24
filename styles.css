@@ -25,6 +25,13 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+    /* Προσθήκη Εικόνας Φόντου */
+    background-image: url('icons/background.jpg');
+    background-size: cover;        /* Καλύπτει ολόκληρη την οθόνη */
+    background-position: center;   /* Κεντράρει την εικόνα */
+    background-repeat: no-repeat;  /* Αποτρέπει την επανάληψη */
+    background-attachment: fixed;  /* Κάνει το φόντο σταθερό καθώς σκρολάρετε */
+    
 }
 h1, h2, h3 {
     color: #4CAF50; /* Σκούρο πράσινο χρώμα για τους τίτλους */
