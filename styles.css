@@ -19,20 +19,21 @@
     --form-bg: #1e1e1e;
 }
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    /* Προσθήκη Εικόνας Φόντου */
-    background-image: url('icons/background.jpg');
-    background-size: cover;        /* Καλύπτει ολόκληρη την οθόνη */
-    background-position: center;   /* Κεντράρει την εικόνα */
-    background-repeat: no-repeat;  /* Αποτρέπει την επανάληψη */
-    background-attachment: fixed;  /* Κάνει το φόντο σταθερό καθώς σκρολάρετε */
-    
-}
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            line-height: 1.6;
+            /* Luxurious Burgundy / Bordeaux color gradient */
+            background: linear-gradient(180deg, 
+                #1a0207 0%, 
+                #3b0a13 20%, 
+                #5e1220 50%, 
+                #3b0a13 80%, 
+                #150105 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
 h1, h2, h3 {
     color: #4CAF50; /* Σκούρο πράσινο χρώμα για τους τίτλους */
     text-shadow: 1px 1px 2px #000000; /* Μαύρη σκιά για πιο έντονη εμφάνιση */
